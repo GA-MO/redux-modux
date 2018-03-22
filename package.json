@@ -1,6 +1,6 @@
 {
   "name": "redux-modux",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Redux Modux is concept to create the module in redux app for Create reducer, action handler and actions in a single file.",
   "main": "lib/index.js",
   "repository": {
@@ -24,7 +24,9 @@
     "url": "https://github.com/GA-MO/redux-modux/issues"
   },
   "homepage": "https://github.com/GA-MO/redux-modux",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -44,7 +46,9 @@
     "rimraf": "^2.6.2"
   },
   "nyc": {
-    "require": ["babel-register"],
+    "require": [
+      "babel-register"
+    ],
     "sourceMap": false,
     "instrument": false
   },
