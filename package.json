@@ -1,0 +1,63 @@
+{
+  "name": "redux-modux",
+  "version": "1.0.0",
+  "description": "Redux Modux is concept to create the module in redux app for Create reducer, action handler and actions in a single file.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GA-MO/redux-modux.git"
+  },
+  "keywords": [
+    "redux module",
+    "react module",
+    "module",
+    "redux",
+    "redux-modux",
+    "redux modux",
+    "react modux",
+    "modux",
+    "react"
+  ],
+  "author": "Thawatchai Kuansombat (thawatchai.deartk@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GA-MO/redux-modux/issues"
+  },
+  "homepage": "https://github.com/GA-MO/redux-modux",
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.17.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^5.0.4",
+    "nyc": "^11.6.0",
+    "rimraf": "^2.6.2"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
+  "scripts": {
+    "build": "npm run clean && babel src --out-dir lib",
+    "clean": "rimraf lib",
+    "lint": "eslint ./src",
+    "test": "npm run lint && mocha ./test/**/*.test.js --compilers js:babel-register",
+    "test:watch": "mocha ./test/**/*.test.js --compilers js:babel-register --watch",
+    "test:coverage": "nyc --check-coverage mocha",
+    "prepublish": "npm run build"
+  }
+}
