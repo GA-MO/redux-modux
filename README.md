@@ -2,9 +2,11 @@
 
 Redux Modux is concept to create the module in redux app for Create reducer, action handler and actions in a single file. 
 
-
 [![npm version](https://badge.fury.io/js/redux-modux.svg)](https://badge.fury.io/js/redux-modux)
 [![build](https://circleci.com/gh/GA-MO/redux-modux/tree/master.svg?style=shield&circle-token=7f4e5cdf8e9a36fc1e11c3593e3e31ec24a1c5a8)](https://circleci.com/gh/GA-MO/redux-modux/tree/master.svg?style=shield&circle-token=7f4e5cdf8e9a36fc1e11c3593e3e31ec24a1c5a8)
+
+[Todo App Demo](https://stackblitz.com/edit/redux-modux)
+
 
 #### Installation:
 ```
