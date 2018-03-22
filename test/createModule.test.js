@@ -4,7 +4,7 @@ import chai, { assert } from 'chai'
 import createActionHandler from '../src/createActionHandler'
 import createAction from '../src/createAction'
 import { createModule } from '../src'
-import { create } from 'domain'
+
 const expect = chai.expect
 
 const initialState = []
