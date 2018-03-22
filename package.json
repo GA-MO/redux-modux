@@ -2,6 +2,7 @@
   "name": "redux-modux",
   "version": "1.0.0",
   "description": "Redux Modux is concept to create the module in redux app for Create reducer, action handler and actions in a single file.",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/GA-MO/redux-modux.git"
