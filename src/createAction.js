@@ -7,7 +7,7 @@ export default (handlers) => {
     const actionName = getActionName(actionType)
     const action = (payload = {}) => ({
       type: actionType,
-      payload
+      ...payload
     })
 
     return { ...result, [actionName]: action }

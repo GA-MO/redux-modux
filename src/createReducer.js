@@ -6,7 +6,7 @@ export default (initialState, handlers) => {
       for (let actionType in actionHandlers) {
         const handler = actionHandlers[actionType]
 
-        if (actionType === action.type) return handler(state, action.payload)
+        if (actionType === action.type) return handler(state, action)
         if (isOtherType(actionType)) return handleAction(handler)
       }
 
