@@ -1,14 +1,18 @@
-import { isOtherType } from './helpers'
+import { isOtherType, getHash } from './helpers'
 import variables from './variables'
 
-export default (funcs) => {
-  return Object.keys(funcs).reduce((result, actionType) => {
-    let key = `${variables.prefixActionType}.${actionType}`
+export default ({ moduleName = false, handlers = {} }) => {
+  return Object.keys(handlers).reduce((result, actionType) => {
+    const name = moduleName || getHash()
+
+    let type = `${variables.prefixActionType}_${name}.${actionType}`
 
     if (isOtherType(actionType)) {
-      key = variables.keyOtherTypeOption
+      type = actionType
     }
 
-    return { ...result, [key]: funcs[actionType] }
+    const actionHandler = handlers[actionType]
+
+    return { ...result, [type]: actionHandler }
   }, {})
 }
