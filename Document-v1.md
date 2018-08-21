@@ -5,9 +5,7 @@ Redux Modux is concept to create the module in redux app for Create reducer, act
 [![npm version](https://badge.fury.io/js/redux-modux.svg)](https://badge.fury.io/js/redux-modux)
 [![build](https://circleci.com/gh/GA-MO/redux-modux/tree/master.svg?style=shield&circle-token=7f4e5cdf8e9a36fc1e11c3593e3e31ec24a1c5a8)](https://circleci.com/gh/GA-MO/redux-modux/tree/master.svg?style=shield&circle-token=7f4e5cdf8e9a36fc1e11c3593e3e31ec24a1c5a8)
 
-Document for version 1 [see](https://github.com/GA-MO/redux-modux/blob/master/Document-v1.md)
-
-[Todo App Demo](https://stackblitz.com/edit/redux-modux-v2)
+[Todo App Demo](https://stackblitz.com/edit/redux-modux)
 
 
 #### Installation:
@@ -41,10 +39,10 @@ src
 ## Create Module
 Create reducer, action handler and actions in a single file with `createModule`.
 
-Example Create `profile` module.
+Example Create `user` module.
 
 ```js
-// modules/profile/index.js
+// modules/user/index.js
 
 import { createModule } from 'redux-modux'
 
@@ -54,7 +52,7 @@ const initialState = {
   age: '',
 }
 
-const updateProfileValue = (state, action) => {
+const updateValueUser = (state, action) => {
   return {
     ...state,
     firstName: action.firstName,
@@ -64,42 +62,40 @@ const updateProfileValue = (state, action) => {
 }
 
 const handlers = {
-  updateProfileValue
+  updateValueUser
 }
 
-export default createModule({
-  moduleName: 'Profile', // Optional (Prefix when console.log  action's type)
-  initialState,
-  handlers
-})
+export default createModule(initialState, handlers)
 ```
-The output of `profile` module
+The output of `user` module
 ```js
-  import profile from './profile'
+  import user from './user'
 
-  console.log('Profile', profile)
+  console.log('User', user)
 
   // The log is:
   // {
   //   state: reducer
-  //   updateProfileValue: action
+  //   actions: {
+  //     updateValueUser: action
+  //   }
   // }
 ```
 
 ## How to use a module
 
-`createModule` return `state` and key of actions
+`createModule` return `state` and `actions`
 
 ### State
 ```js
 // modules/index.js
 
 import { combineReducers } from 'redux'
-import profile from './profile'
+import user from './user'
 
 export default combineReducers({
   todo: todo.state,
-  profile: profile.state,
+  user: user.state,
 })
 ```
 
@@ -107,21 +103,21 @@ export default combineReducers({
 ```js
 import React from 'react'
 import { connect } from 'react-redux'
-import profile from '../modules/profile'
+import user from '../modules/user'
 
 class App extends React.Component {
-  handleClickUpdateProfile = () => {
-    const newProfile = {
+  handleClickUpdateUser = () => {
+    const userData = {
       firstName: 'Peter',
       lastName: 'Parker',
       age: '25'
     }
 
-    this.props.dispatch(profile.handleClickUpdateProfile(newProfile))
+    this.props.dispatch(user.actions.updateValueUser(userData))
   }
 
   render() {
-    return <button onClick={this.handleClickUpdateProfile}>Update Profile</button>
+    return <button onClick={this.handleClickUpdateUser}>Update User Data</button>
   }
 }
 
@@ -133,11 +129,27 @@ How to handle action type that is not existing type in the module.
 
 Add `handleOtherTypes` key to handlers parameter.
 ```js
-// modules/profile/index.js
-...
+// modules/user/index.js
+
+import { createModule } from 'redux-modux'
+
+const initialState = {
+  firstName: '',
+  lastName: '',
+  age: '',
+}
+
+const updateValueUser = (state, action) => {
+  return {
+    ...state,
+    firstName: action.firstName,
+    lastName: action.lastName,
+    age: action.age
+  }
+}
 
 const handlers = {
-  updateProfileValue,
+  updateValueUser,
   handleOtherTypes: { // Example to handle other action types
     'INITIAL_DATA_FROM_SERVER': (state, action) => state,
     'APP_LOADING': (state, action) => state,
@@ -145,5 +157,5 @@ const handlers = {
   }
 }
 
-...
+export default createModule(initialState, handlers)
 ```

@@ -1,6 +1,7 @@
 /* global , it, describe */
 
 import chai, { assert } from 'chai'
+import { getActionName } from '../src/helpers'
 import createActionHandler from '../src/createActionHandler'
 import createAction from '../src/createAction'
 import { createModule } from '../src'
@@ -25,29 +26,29 @@ const handleOtherTypes = {
 }
 
 describe('Test Create Module', () => {
-  const actionHandlers = createActionHandler(handlers)
+  const actionHandlers = createActionHandler({ handlers })
   const actions = createAction(actionHandlers)
 
-  const actionHandleOtherTypes = createActionHandler(handleOtherTypes)
+  const actionHandleOtherTypes = createActionHandler({ handlers: handleOtherTypes })
   const actionWithOtherTypes = createAction(actionHandleOtherTypes)
 
-  const reduxModule = createModule(initialState, handlers)
+  const actionHandleWithModuleName = createActionHandler({ moduleName: 'myModule', handlers })
+
+  const reduxModule = createModule({ initialState, handlers })
 
   it('Create Action Handler', () => {
-    expect(actionHandlers).to.have.all.keys(
-      '@@reduxAction.addTodo',
-      '@@reduxAction.deleteTodo'
-    )
-
-    expect(actionHandlers).to.have
-      .property('@@reduxAction.addTodo')
-      .that.is.a('function')
-
-    expect(actionHandlers).to.have
-      .property('@@reduxAction.deleteTodo')
-      .that.is.a('function')
+    for (let key in actionHandlers) {
+      assert.include(`${key}`, `@@reduxAction_`, `${getActionName(key)}`)
+      expect(actionHandlers).to.have.property(key).that.is.a('function')
+    }
 
     assert.equal(Object.keys(actionHandlers).length, 2)
+  })
+
+  it('Create Action Handler with moduleName', () => {
+    for (let key in actionHandleWithModuleName) {
+      assert.include(`${key}`, `@@reduxAction_myModule`, `${getActionName(key)}`)
+    }
   })
 
   it('Create Action Handler with handleOtherTypes', () => {
@@ -89,11 +90,7 @@ describe('Test Create Module', () => {
   })
 
   it('Create Module', () => {
-    expect(reduxModule).to.have.all.keys('state', 'actions')
+    expect(reduxModule).to.have.all.keys('state', 'addTodo', 'deleteTodo')
     expect(reduxModule).to.have.property('state').that.is.a('function')
-    expect(reduxModule).to.have
-      .property('actions')
-      .that.is.a('object')
-      .to.have.all.keys('addTodo', 'deleteTodo')
   })
 })
