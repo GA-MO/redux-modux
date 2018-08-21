@@ -117,7 +117,7 @@ class App extends React.Component {
       age: '25'
     }
 
-    this.props.dispatch(profile.handleClickUpdateProfile(newProfile))
+    this.props.dispatch(profile.updateProfileValue(newProfile))
   }
 
   render() {
