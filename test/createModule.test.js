@@ -4,6 +4,7 @@ import chai, { assert } from 'chai'
 import { getActionName } from '../src/helpers'
 import createActionHandler from '../src/createActionHandler'
 import createAction from '../src/createAction'
+import getDefaultActionHandler from '../src/getDefaultActionHandler'
 import { createModule } from '../src'
 
 const expect = chai.expect
@@ -15,13 +16,14 @@ const deleteTodo = (state, action) => state
 
 const handlers = {
   addTodo,
-  deleteTodo
+  deleteTodo,
+  ...getDefaultActionHandler(initialState)
 }
 
 const handleOtherTypes = {
   handleOtherTypes: {
-    ADD_USER: (state) => state,
-    REMOVE_USER: (state) => state
+    ADD_USER: state => state,
+    REMOVE_USER: state => state
   }
 }
 
@@ -39,10 +41,15 @@ describe('Test Create Module', () => {
   it('Create Action Handler', () => {
     for (let key in actionHandlers) {
       assert.include(`${key}`, `@@reduxAction_`, `${getActionName(key)}`)
-      expect(actionHandlers).to.have.property(key).that.is.a('function')
+      expect(actionHandlers)
+        .to.have.property(key)
+        .that.is.a('function')
     }
 
-    assert.equal(Object.keys(actionHandlers).length, 2)
+    const handlerSizeBefore = Object.keys(handlers).length
+    const handlerSizeAfter = Object.keys(actionHandlers).length
+
+    assert.equal(handlerSizeBefore, handlerSizeAfter)
   })
 
   it('Create Action Handler with moduleName', () => {
@@ -54,18 +61,18 @@ describe('Test Create Module', () => {
   it('Create Action Handler with handleOtherTypes', () => {
     expect(actionHandleOtherTypes).to.have.all.keys('handleOtherTypes')
 
-    expect(actionHandleOtherTypes).to.have
-      .property('handleOtherTypes')
+    expect(actionHandleOtherTypes)
+      .to.have.property('handleOtherTypes')
       .to.have.all.keys('ADD_USER', 'REMOVE_USER')
 
-    expect(actionHandleOtherTypes).to.have
-      .property('handleOtherTypes')
+    expect(actionHandleOtherTypes)
+      .to.have.property('handleOtherTypes')
       .that.is.a('object')
       .to.have.property('ADD_USER')
       .that.is.a('function')
 
-    expect(actionHandleOtherTypes).to.have
-      .property('handleOtherTypes')
+    expect(actionHandleOtherTypes)
+      .to.have.property('handleOtherTypes')
       .that.is.a('object')
       .to.have.property('REMOVE_USER')
       .that.is.a('function')
@@ -74,15 +81,29 @@ describe('Test Create Module', () => {
   })
 
   it('Create Action', () => {
-    expect(actions).to.have.all.keys('addTodo', 'deleteTodo')
+    expect(actions)
+      .to.have.property('addTodo')
+      .that.is.a('function')
 
-    expect(actions).to.have.all.keys('addTodo', 'deleteTodo')
+    expect(actions)
+      .to.have.property('deleteTodo')
+      .that.is.a('function')
 
-    expect(actions).to.have.property('addTodo').that.is.a('function')
+    const handlerSizeBefore = Object.keys(actionHandlers).length
+    const handlerSizeAfter = Object.keys(actions).length
 
-    expect(actions).to.have.property('deleteTodo').that.is.a('function')
+    assert.equal(handlerSizeBefore, handlerSizeAfter)
+  })
 
-    assert.equal(Object.keys(actions).length, 2)
+  it('Get default Action handler', () => {
+    const defaultActionHandler = getDefaultActionHandler(initialState)
+    expect(defaultActionHandler)
+      .to.have.property('set')
+      .that.is.a('function')
+
+    expect(defaultActionHandler)
+      .to.have.property('resetDefault')
+      .that.is.a('function')
   })
 
   it('Create Action with Handle Other Type', () => {
@@ -90,7 +111,9 @@ describe('Test Create Module', () => {
   })
 
   it('Create Module', () => {
-    expect(reduxModule).to.have.all.keys('state', 'addTodo', 'deleteTodo')
-    expect(reduxModule).to.have.property('state').that.is.a('function')
+    expect(reduxModule).to.have.all.keys('state', 'addTodo', 'deleteTodo', 'set', 'resetDefault')
+    expect(reduxModule)
+      .to.have.property('state')
+      .that.is.a('function')
   })
 })

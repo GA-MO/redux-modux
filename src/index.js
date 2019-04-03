@@ -1,19 +1,21 @@
 import createActionHandler from './createActionHandler'
 import createAction from './createAction'
 import createReducer from './createReducer'
+import getDefaultActionHandler from './getDefaultActionHandler'
 
 const createModule = ({ moduleName, initialState, handlers }) => {
   if (typeof initialState === 'undefined') {
-    console.error('@redux-modux: initialState is required and should be a Object or Array in createModule()')
+    console.error('@redux-modux: initialState is missing in createModule()')
     return
   }
 
-  if (typeof handlers === 'undefined') {
-    console.error('@redux-modux: handlers is required and should be a Object in createModule()')
-    return
-  }
+  const handlerWithDefault = { ...handlers, ...getDefaultActionHandler(initialState) }
 
-  const actionHandlers = createActionHandler({ moduleName, handlers })
+  const actionHandlers = createActionHandler({
+    moduleName,
+    initialState,
+    handlers: handlerWithDefault
+  })
 
   return {
     state: createReducer(initialState, actionHandlers),
