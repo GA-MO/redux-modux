@@ -24,6 +24,7 @@ $ yarn add redux-modux
   - [State](#state)
   - [Action](#action)
 - [Default Action handler](#default-action-handler)
+- [Get action type string](#get-action-type-string)
 - [Handle Other Action Type](#handle-other-action-type)
 
 ## App Structure
@@ -169,6 +170,16 @@ dispatch(someModule.resetDefault());
 ```
 
 </details>
+
+## Get action type string
+
+You can get action type from action
+
+```js
+import someModule from '../modules/someModule';
+
+someModule.updateProfileValue.actionType; // @@reduxAction_moduleName.updateProfileValue
+```
 
 ## Handle Other Action Type
 
