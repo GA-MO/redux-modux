@@ -36,7 +36,7 @@ describe('Test Create Module', () => {
 
   const actionHandleWithModuleName = createActionHandler({ moduleName: 'myModule', handlers })
 
-  const reduxModule = createModule({ initialState, handlers })
+  const reduxModule = createModule({ moduleName: 'modux', initialState, handlers })
 
   it('Create Action Handler', () => {
     for (let key in actionHandlers) {
@@ -115,5 +115,9 @@ describe('Test Create Module', () => {
     expect(reduxModule)
       .to.have.property('state')
       .that.is.a('function')
+  })
+
+  it('Get Action type sting', () => {
+    expect(reduxModule.addTodo.actionType).to.equal('@@reduxAction_modux.addTodo')
   })
 })

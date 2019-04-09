@@ -1,14 +1,16 @@
 import { isOtherType, getActionName } from './helpers'
 
-export default (handlers) => {
+export default handlers => {
   return Object.keys(handlers).reduce((result, actionType) => {
     if (isOtherType(actionType)) return result
 
     const actionName = getActionName(actionType)
-    const action = (payload = {}) => ({
+    let action = (payload = {}) => ({
       type: actionType,
       ...payload
     })
+
+    action.actionType = actionType
 
     return { ...result, [actionName]: action }
   }, {})
