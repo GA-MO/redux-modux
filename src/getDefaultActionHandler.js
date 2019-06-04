@@ -9,7 +9,7 @@ export default initialState => ({
       return state
     }
 
-    if (!action.key || !action.value) {
+    if (!action.key || (!action.value && action.value !== '')) {
       console.error(`@redux-modux: set is require "key" and "value"`)
       return state
     }
