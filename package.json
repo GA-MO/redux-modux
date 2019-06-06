@@ -1,6 +1,6 @@
 {
   "name": "redux-modux",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Redux Modux is concept to create the module in redux app for Create reducer, action handler and actions in a single file.",
   "main": "lib/index.js",
   "repository": {
