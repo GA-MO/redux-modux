@@ -143,8 +143,6 @@ export default connect(null)(Home);
 <details>
 <summary>set</summary>
 
-> Suport with object state only
-
 ```js
 import someModule from '../modules/someModule';
 
